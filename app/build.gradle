@@ -36,6 +36,8 @@ chaquopy {
     defaultConfig {
         pip {
             install "six"
+            install "pyzmq"
+            install "packaging<=21.3"
         }
     }
 }

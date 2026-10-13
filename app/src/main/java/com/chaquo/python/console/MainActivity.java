@@ -21,7 +21,7 @@ public class MainActivity extends PythonConsoleActivity {
         }
 
         @Override public void run() {
-            py.getModule("main").callAttr("main");
+            py.getModule("pupil_src.main").callAttr("main");
         }
     }
 }
