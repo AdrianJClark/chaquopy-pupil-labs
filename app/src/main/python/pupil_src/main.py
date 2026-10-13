@@ -97,6 +97,7 @@ if not os.path.isdir(plugin_dir):
 from ctypes import c_bool, c_double
 
 # threading and processing
+from multiprocessing.dummy import (
     Process,
     Value,
     active_children,
