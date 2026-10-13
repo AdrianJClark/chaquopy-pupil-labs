@@ -16,7 +16,7 @@ import numpy as np
 import numpy.typing as npt
 import zmq_tools
 from camera_models import Dummy_Camera, Radial_Dist_Camera
-from pyglui import ui
+# from pyglui import ui
 from typing_extensions import Literal, NotRequired, TypedDict
 from video_capture.base_backend import Base_Source
 
@@ -281,5 +281,5 @@ class HMD_Streaming_Source(Base_Source):
 
     def ui_elements(self):
         ui_elements = []
-        ui_elements.append(ui.Info_Text(self.name))
+        #ui_elements.append(ui.Info_Text(self.name))
         return ui_elements

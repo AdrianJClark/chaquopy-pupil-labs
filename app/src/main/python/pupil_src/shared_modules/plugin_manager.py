@@ -13,7 +13,7 @@ import logging
 from calibration_choreography import CalibrationChoreographyPlugin
 from gaze_mapping.gazer_base import GazerBase
 from plugin import System_Plugin_Base
-from pyglui import ui
+#from pyglui import ui
 from video_capture import Base_Manager, Base_Source
 
 logger = logging.getLogger(__name__)

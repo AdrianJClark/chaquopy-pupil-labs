@@ -19,7 +19,7 @@ https://github.com/pupil-labs/pupil-helpers/tree/master/pupil_remote
 import logging
 import traceback
 
-import msgpack as serializer
+import umsgpack as serializer
 import zmq
 from zmq.utils.monitor import recv_monitor_message
 
@@ -27,7 +27,7 @@ from zmq.utils.monitor import recv_monitor_message
 
 assert zmq.__version__ > "15.1"
 assert (
-    serializer.version[0] == 1
+    serializer.version[0] >= 1
 ), "msgpack out of date, please upgrade to version (1, 0, 0)"
 
 

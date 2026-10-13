@@ -81,7 +81,7 @@ def get_version():
         with open(version_file) as f:
             version_string = f.read()
     else:
-        version_string = pupil_version_string()
+        version_string = "3.6.20" #pupil_version_string()
     logger.debug(f"Running version: {version_string}")
     return parse_version(version_string)
 

@@ -13,10 +13,10 @@ import typing as T
 from enum import IntEnum, auto
 from time import monotonic, sleep
 
-import gl_utils
+#import gl_utils
 import numpy as np
 from plugin import Plugin
-from pyglui import cygl, ui
+#from pyglui import cygl, ui
 
 logger = logging.getLogger(__name__)
 
@@ -207,10 +207,6 @@ class Base_Source(Plugin):
             settings_menu.extend(source_settings)
             self.menu.append(settings_menu)
 
-    def ui_elements(self) -> T.List[ui.UI_element]:
-        """Returns a list of ui elements with info and settings for the source."""
-        return []
-
     def recent_events(self, events):
         """Returns None
 
@@ -219,29 +215,6 @@ class Base_Source(Plugin):
             source frame.
         """
         raise NotImplementedError()
-
-    def gl_display(self):
-        if self._recent_frame is not None:
-            frame = self._recent_frame
-            if (
-                frame.yuv_buffer is not None
-                # TODO: Find a better solution than this:
-                and getattr(self.g_pool, "display_mode", "") != "algorithm"
-            ):
-                self.g_pool.image_tex.update_from_yuv_buffer(
-                    frame.yuv_buffer, frame.width, frame.height
-                )
-            else:
-                self.g_pool.image_tex.update_from_ndarray(frame.bgr)
-            gl_utils.glFlush()
-        should_flip = getattr(self.g_pool, "flip", False)
-        gl_utils.make_coord_system_norm_based(flip=should_flip)
-        self.g_pool.image_tex.draw()
-        if not self.online:
-            cygl.utils.draw_gl_texture(np.zeros((1, 1, 3), dtype=np.uint8), alpha=0.4)
-        gl_utils.make_coord_system_pixel_based(
-            (self.frame_size[1], self.frame_size[0], 3), flip=should_flip
-        )
 
     @property
     def name(self) -> str:

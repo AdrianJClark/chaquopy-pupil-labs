@@ -97,13 +97,13 @@ if not os.path.isdir(plugin_dir):
 from ctypes import c_bool, c_double
 
 # threading and processing
-from multiprocessing import (
     Process,
     Value,
     active_children,
     freeze_support,
-    set_start_method,
+#    set_start_method,
 )
+
 from threading import Thread
 
 # time
@@ -118,18 +118,18 @@ from os_utils import Prevent_Idle_Sleep
 
 # functions to run in seperate processes
 if parsed_args.profile:
-    from launchables.eye import eye_profiled as eye
-    from launchables.player import player_profiled as player
-    from launchables.service import service_profiled as service
-    from launchables.world import world_profiled as world
+    from pupil_src.launchables.eye import eye_profiled as eye
+    from pupil_src.launchables.player import player_profiled as player
+    from pupil_src.launchables.service import service_profiled as service
+    from pupil_src.launchables.world import world_profiled as world
 else:
-    from launchables.world import world
-    from launchables.service import service
-    from launchables.eye import eye
-    from launchables.player import player
+    from pupil_src.launchables.world import world
+    from pupil_src.launchables.service import service
+    from pupil_src.launchables.eye import eye
+    from pupil_src.launchables.player import player
 
-from launchables.marker_detectors import circle_detector
-from launchables.player import player_drop
+from pupil_src.launchables.marker_detectors import circle_detector
+from pupil_src.launchables.player import player_drop
 
 
 def clear_settings(user_dir):
@@ -476,7 +476,7 @@ def process_notification(
             cmd_push.notify({"subject": "player_process.should_stop"})
 
 
-if __name__ == "__main__":
+def main(): #if __name__ == "__main__":
     # freeze_support()
     # set_start_method("spawn")
     launcher()

@@ -20,3 +20,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+/libuvccamera/build
+/libuvccamera/src/main/obj
+/usbCameraCommon/build

@@ -19,12 +19,12 @@ import types
 from glob import iglob
 from pathlib import Path
 
-import msgpack
+import umsgpack
 import numpy as np
 from rich.progress import track
 
 assert (
-    msgpack.version[0] == 1
+    umsgpack.version[0] >= 1
 ), "msgpack out of date, please upgrade to version (1, 0, 0)"
 
 

@@ -120,32 +120,32 @@ def world(
         IPCLoggingPatch.ipc_push_url = ipc_push_url
 
         # display
-        import glfw
-        from gl_utils import GLFWErrorReporting
-        from OpenGL.GL import GL_COLOR_BUFFER_BIT
+        # import glfw
+        # from gl_utils import GLFWErrorReporting
+        # from OpenGL.GL import GL_COLOR_BUFFER_BIT
 
-        GLFWErrorReporting.set_default()
+        # GLFWErrorReporting.set_default()
 
-        from pyglui import __version__ as pyglui_version
-        from pyglui import cygl, ui
+        # from pyglui import __version__ as pyglui_version
+        # from pyglui import cygl, ui
         from version_utils import parse_version
 
-        assert parse_version(pyglui_version) >= parse_version(
-            "1.31.0"
-        ), "pyglui out of date, please upgrade to newest version"
-        import gl_utils
+        # assert parse_version(pyglui_version) >= parse_version(
+        #     "1.31.0"
+        # ), "pyglui out of date, please upgrade to newest version"
+        # import gl_utils
 
         # helpers/utils
         from file_methods import Persistent_Dict
         from methods import delta_t, denormalize, get_system_info, normalize, timer
-        from pyglui.cygl.utils import Named_Texture
-        from uvc import get_time_monotonic
+        # from pyglui.cygl.utils import Named_Texture
+        # from uvc import get_time_monotonic
 
         logger.debug(f"Application Version: {version}")
         logger.debug(f"System Info: {get_system_info()}")
         logger.debug(f"Debug flag: {debug}")
 
-        import audio
+        # import audio
         from calibration_choreography import (
             CalibrationChoreographyPlugin,
             available_calibration_choreography_plugins,
@@ -236,11 +236,11 @@ def world(
         g_pool.preferred_remote_port = preferred_remote_port
         g_pool.skip_driver_installation = skip_driver_installation
 
-        def get_timestamp():
-            return get_time_monotonic() - g_pool.timebase.value
+        #def get_timestamp():
+        #    return get_time_monotonic() - g_pool.timebase.value
 
-        g_pool.get_timestamp = get_timestamp
-        g_pool.get_now = get_time_monotonic
+        #g_pool.get_timestamp = get_timestamp
+        #g_pool.get_now = get_time_monotonic
 
         # manage plugins
         runtime_plugins = import_runtime_plugins(

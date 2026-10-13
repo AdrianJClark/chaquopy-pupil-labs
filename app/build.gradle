@@ -15,13 +15,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            abiFilters "arm64-v8a"
         }
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     buildTypes {
@@ -38,6 +42,13 @@ chaquopy {
             install "six"
             install "pyzmq"
             install "packaging<=21.3"
+            install "u-msgpack-python"
+            install "rich"
+            install "numpy"
+            install "opencv-python"
+            install "typing_extensions"
+            install "scikit-learn"
+            install "click"
         }
     }
 }
@@ -51,4 +62,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    implementation("com.serenegiant:common:${commonLibVersion}") {
+        exclude module: 'support-v4'
+    }
+    implementation project(':libuvccamera')
 }
