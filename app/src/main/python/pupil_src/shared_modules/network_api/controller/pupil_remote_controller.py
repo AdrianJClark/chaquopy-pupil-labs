@@ -16,9 +16,9 @@ import os_utils
 import zmq
 import zmq_tools
 from observable import Observable
-from pyre import zhelper
+# from pyre import zhelper
 
-os_utils.patch_pyre_zhelper_cdll()
+# os_utils.patch_pyre_zhelper_cdll()
 logger = logging.getLogger(__name__)
 
 
@@ -166,9 +166,9 @@ class PupilRemoteController(Observable):
             return
 
         new_address = f"{host}:{port}"
-        self.__thread_pipe = zhelper.zthread_fork(
-            self.g_pool.zmq_ctx, self.__thread_loop
-        )
+#         self.__thread_pipe = zhelper.zthread_fork(
+#             self.g_pool.zmq_ctx, self.__thread_loop
+#         )
         self.__thread_pipe.send_string("Bind", flags=zmq.SNDMORE)
         self.__thread_pipe.send_string(f"tcp://{new_address}")
         response = self.__thread_pipe.recv_string()

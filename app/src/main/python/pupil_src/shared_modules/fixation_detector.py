@@ -38,7 +38,7 @@ import background_helper as bh
 import cv2
 import data_changed
 import file_methods as fm
-import msgpack
+import umsgpack
 import numpy as np
 import player_methods as pm
 from hotkey import Hotkey
@@ -46,9 +46,9 @@ from methods import denormalize
 from observable import Observable
 from plugin import Plugin
 from pupil_recording import PupilRecording, RecordingInfo
-from pyglui import ui
-from pyglui.cygl.utils import RGBA, draw_circle
-from pyglui.pyfontstash import fontstash
+# from pyglui import ui
+# from pyglui.cygl.utils import RGBA, draw_circle
+# from pyglui.pyfontstash import fontstash
 from scipy.spatial.distance import pdist
 
 logger = logging.getLogger(__name__)
@@ -883,52 +883,52 @@ class Fixation_Detector(Fixation_Detector_Base):
             (gaze["topic"], gaze["timestamp"]) for gaze in fixation["base_data"]
         ]
 
-    def gl_display(self):
-        if self.recent_fixation:
-            fs = self.g_pool.capture.frame_size  # frame height
-            pt = denormalize(self.recent_fixation["norm_pos"], fs, flip_y=True)
-            draw_circle(
-                pt, radius=48.0, stroke_width=10.0, color=RGBA(1.0, 1.0, 0.0, 1.0)
-            )
-            self.glfont.draw_text(pt[0] + 48.0, pt[1], str(self.recent_fixation["id"]))
-
-    def init_ui(self):
-        self.add_menu()
-        self.menu.label = "Fixation Detector"
-
-        for help_block in self.__doc__.split("\n\n"):
-            help_str = help_block.replace("\n", " ").replace("  ", "").strip()
-            self.menu.append(ui.Info_Text(help_str))
-
-        self.menu.append(
-            ui.Slider(
-                "max_dispersion",
-                self,
-                min=0.01,
-                step=0.1,
-                max=5.0,
-                label="Maximum Dispersion [degrees]",
-            )
-        )
-        self.menu.append(
-            ui.Slider(
-                "min_duration",
-                self,
-                min=10,
-                step=10,
-                max=4000,
-                label="Minimum Duration [milliseconds]",
-            )
-        )
-
-        self.glfont = fontstash.Context()
-        self.glfont.add_font("opensans", ui.get_opensans_font_path())
-        self.glfont.set_size(22)
-        self.glfont.set_color_float((0.2, 0.5, 0.9, 1.0))
-
-    def deinit_ui(self):
-        self.remove_menu()
-        self.glfont = None
+#     def gl_display(self):
+#         if self.recent_fixation:
+#             fs = self.g_pool.capture.frame_size  # frame height
+#             pt = denormalize(self.recent_fixation["norm_pos"], fs, flip_y=True)
+#             draw_circle(
+#                 pt, radius=48.0, stroke_width=10.0, color=RGBA(1.0, 1.0, 0.0, 1.0)
+#             )
+#             self.glfont.draw_text(pt[0] + 48.0, pt[1], str(self.recent_fixation["id"]))
+#
+#     def init_ui(self):
+#         self.add_menu()
+#         self.menu.label = "Fixation Detector"
+#
+#         for help_block in self.__doc__.split("\n\n"):
+#             help_str = help_block.replace("\n", " ").replace("  ", "").strip()
+#             self.menu.append(ui.Info_Text(help_str))
+#
+#         self.menu.append(
+#             ui.Slider(
+#                 "max_dispersion",
+#                 self,
+#                 min=0.01,
+#                 step=0.1,
+#                 max=5.0,
+#                 label="Maximum Dispersion [degrees]",
+#             )
+#         )
+#         self.menu.append(
+#             ui.Slider(
+#                 "min_duration",
+#                 self,
+#                 min=10,
+#                 step=10,
+#                 max=4000,
+#                 label="Minimum Duration [milliseconds]",
+#             )
+#         )
+#
+#         self.glfont = fontstash.Context()
+#         self.glfont.add_font("opensans", ui.get_opensans_font_path())
+#         self.glfont.set_size(22)
+#         self.glfont.set_color_float((0.2, 0.5, 0.9, 1.0))
+#
+#     def deinit_ui(self):
+#         self.remove_menu()
+#         self.glfont = None
 
     def get_init_dict(self):
         return {

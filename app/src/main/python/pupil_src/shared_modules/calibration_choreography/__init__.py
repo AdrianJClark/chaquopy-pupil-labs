@@ -19,8 +19,8 @@ from .base_plugin import (
 def import_builtin_choreography_plugins():
     from .hmd_plugin import HMD3DChoreographyPlugin
     from .natural_feature_plugin import NaturalFeatureChoreographyPlugin
-    from .screen_marker_plugin import ScreenMarkerChoreographyPlugin
-    from .single_marker_plugin import SingleMarkerChoreographyPlugin
+    #from .screen_marker_plugin import ScreenMarkerChoreographyPlugin
+    #from .single_marker_plugin import SingleMarkerChoreographyPlugin
 
 
 def available_calibration_choreography_plugins():
@@ -32,8 +32,8 @@ def available_calibration_choreography_plugins():
 
 def default_calibration_choreography_plugin(app: str):
     registered = CalibrationChoreographyPlugin.registered_choreographies_by_label()
-    if app == "capture":
-        return registered["Screen Marker Calibration"]  # ScreenMarkerChoreographyPlugin
+    #if app == "capture":
+    #    return registered["Screen Marker Calibration"]  # ScreenMarkerChoreographyPlugin
     if app == "service":
         return registered["HMD 3D Calibration"]  # HMD3DChoreographyPlugin
     if app == "player":

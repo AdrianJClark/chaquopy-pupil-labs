@@ -9,10 +9,10 @@ See COPYING and COPYING.LESSER for license details.
 ---------------------------------------------------------------------------~(*)
 """
 
-from gl_utils import draw_circle_filled_func_builder
+# from gl_utils import draw_circle_filled_func_builder
 from methods import denormalize
 from plugin import System_Plugin_Base
-from pyglui.cygl.utils import RGBA
+# from pyglui.cygl.utils import RGBA
 
 
 class Display_Recent_Gaze(System_Plugin_Base):
@@ -35,14 +35,14 @@ class Display_Recent_Gaze(System_Plugin_Base):
 
         self.pupil_display_list[:-3] = []
 
-    def gl_display(self):
-        for pt, a in self.pupil_display_list:
-            # This could be faster if there would be a method to also add multiple colors per point
-            self._draw_circle_filled(
-                tuple(pt),
-                size=35 / 2,
-                color=RGBA(1.0, 0.2, 0.4, a),
-            )
+#     def gl_display(self):
+#         for pt, a in self.pupil_display_list:
+#             # This could be faster if there would be a method to also add multiple colors per point
+#             self._draw_circle_filled(
+#                 tuple(pt),
+#                 size=35 / 2,
+#                 color=RGBA(1.0, 0.2, 0.4, a),
+#             )
 
     def get_init_dict(self):
         return {}

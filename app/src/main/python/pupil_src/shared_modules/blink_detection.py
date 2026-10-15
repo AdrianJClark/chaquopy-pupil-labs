@@ -17,24 +17,24 @@ from collections import deque
 import csv_utils
 import data_changed
 import file_methods as fm
-import gl_utils
+#import gl_utils
 import numpy as np
-import OpenGL.GL as gl
+#import OpenGL.GL as gl
 import player_methods as pm
-import pyglui.cygl.utils as cygl_utils
+#import pyglui.cygl.utils as cygl_utils
 from observable import Observable
 from plugin import Plugin
 from pupil_recording import PupilRecording, RecordingInfo
-from pyglui import ui
-from pyglui.pyfontstash import fontstash as fs
+#from pyglui import ui
+#from pyglui.pyfontstash import fontstash as fs
 from scipy.signal import fftconvolve
 
 logger = logging.getLogger(__name__)
 
 
-activity_color = cygl_utils.RGBA(0.6602, 0.8594, 0.4609, 0.8)
-blink_color = cygl_utils.RGBA(0.9961, 0.3789, 0.5313, 0.8)
-threshold_color = cygl_utils.RGBA(0.9961, 0.8438, 0.3984, 0.8)
+#activity_color = cygl_utils.RGBA(0.6602, 0.8594, 0.4609, 0.8)
+#blink_color = cygl_utils.RGBA(0.9961, 0.3789, 0.5313, 0.8)
+#threshold_color = cygl_utils.RGBA(0.9961, 0.8438, 0.3984, 0.8)
 
 
 class Blink_Detection(Plugin):
@@ -235,27 +235,11 @@ class Offline_Blink_Detection(Observable, Blink_Detection):
             data = self.g_pool.pupil_positions[..., "3d"]
         return data
 
-    def init_ui(self):
-        super().init_ui()
-        self.glfont = fs.Context()
-        self.glfont.add_font("opensans", ui.get_opensans_font_path())
-        self.glfont.set_font("opensans")
-        self.timeline = ui.Timeline(
-            "Blink Detection", self.draw_activation, self.draw_legend
-        )
-        self.timeline.content_height *= 2
-        self.g_pool.user_timelines.append(self.timeline)
 
-    def deinit_ui(self):
-        super().deinit_ui()
-        self.g_pool.user_timelines.remove(self.timeline)
-        self.timeline = None
 
     def recent_events(self, events):
         pass
 
-    def gl_display(self):
-        pass
 
     def on_notify(self, notification):
         if notification["subject"] == "blink_detection.should_recalculate":
@@ -482,71 +466,6 @@ class Offline_Blink_Detection(Observable, Blink_Detection):
         class_points.append((t1, -0.9))
         self.cache["class_points"] = tuple(class_points)
 
-    def draw_activation(self, width, height, scale):
-        t0, t1 = self.g_pool.timestamps[0], self.g_pool.timestamps[-1]
-        with gl_utils.Coord_System(t0, t1, -1, 1):
-            cygl_utils.draw_polyline(
-                self.cache["response_points"],
-                color=activity_color,
-                line_type=gl.GL_LINE_STRIP,
-                thickness=scale,
-            )
-            cygl_utils.draw_polyline(
-                self.cache["class_points"],
-                color=blink_color,
-                line_type=gl.GL_LINE_STRIP,
-                thickness=scale,
-            )
-            cygl_utils.draw_polyline(
-                self.cache["thresholds"],
-                color=threshold_color,
-                line_type=gl.GL_LINES,
-                thickness=scale,
-            )
-
-    def draw_legend(self, width, height, scale):
-        self.glfont.push_state()
-        self.glfont.set_align_string(v_align="right", h_align="top")
-        self.glfont.set_size(15.0 * scale)
-        self.glfont.draw_text(width, 0, self.timeline.label)
-
-        legend_height = 13.0 * scale
-        pad = 10 * scale
-
-        self.glfont.draw_text(width, legend_height, "Activity")
-        cygl_utils.draw_polyline(
-            [
-                (pad, legend_height + pad * 2 / 3),
-                (width / 2, legend_height + pad * 2 / 3),
-            ],
-            color=activity_color,
-            line_type=gl.GL_LINES,
-            thickness=4.0 * scale,
-        )
-        legend_height += 1.5 * pad
-
-        self.glfont.draw_text(width, legend_height, "Thresholds")
-        cygl_utils.draw_polyline(
-            [
-                (pad, legend_height + pad * 2 / 3),
-                (width / 2, legend_height + pad * 2 / 3),
-            ],
-            color=threshold_color,
-            line_type=gl.GL_LINES,
-            thickness=4.0 * scale,
-        )
-        legend_height += 1.5 * pad
-
-        self.glfont.draw_text(width, legend_height, "Blinks")
-        cygl_utils.draw_polyline(
-            [
-                (pad, legend_height + pad * 2 / 3),
-                (width / 2, legend_height + pad * 2 / 3),
-            ],
-            color=blink_color,
-            line_type=gl.GL_LINES,
-            thickness=4.0 * scale,
-        )
 
     @property
     def history_length(self):

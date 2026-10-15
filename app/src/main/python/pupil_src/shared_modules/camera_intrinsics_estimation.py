@@ -9,25 +9,25 @@ See COPYING and COPYING.LESSER for license details.
 ---------------------------------------------------------------------------~(*)
 """
 import cv2
-import gl_utils
-import glfw
+# import gl_utils
+# import glfw
 import numpy as np
-import OpenGL.GL as gl
+# import OpenGL.GL as gl
 from camera_models import Fisheye_Dist_Camera, Radial_Dist_Camera
-from gl_utils import (
-    GLFWErrorReporting,
-    adjust_gl_view,
-    basic_gl_setup,
-    clear_gl_screen,
-    draw_circle_filled_func_builder,
-    make_coord_system_norm_based,
-)
-from pyglui import ui
-from pyglui.cygl.utils import RGBA, draw_gl_texture, draw_polyline
-from pyglui.pyfontstash import fontstash
-from pyglui.ui import get_opensans_font_path
+# from gl_utils import (
+#     GLFWErrorReporting,
+#     adjust_gl_view,
+#     basic_gl_setup,
+#     clear_gl_screen,
+#     draw_circle_filled_func_builder,
+#     make_coord_system_norm_based,
+# )
+# from pyglui import ui
+# from pyglui.cygl.utils import RGBA, draw_gl_texture, draw_polyline
+# from pyglui.pyfontstash import fontstash
+# from pyglui.ui import get_opensans_font_path
 
-GLFWErrorReporting.set_default()
+# GLFWErrorReporting.set_default()
 
 # logging
 import logging
@@ -39,11 +39,11 @@ logger = logging.getLogger(__name__)
 
 
 # window calbacks
-def on_resize(window, w, h):
-    active_window = glfw.get_current_context()
-    glfw.make_context_current(window)
-    adjust_gl_view(w, h)
-    glfw.make_context_current(active_window)
+# def on_resize(window, w, h):
+#     active_window = glfw.get_current_context()
+#     glfw.make_context_current(window)
+#     adjust_gl_view(w, h)
+#     glfw.make_context_current(active_window)
 
 
 class Camera_Intrinsics_Estimation(Plugin):
@@ -75,11 +75,11 @@ class Camera_Intrinsics_Estimation(Plugin):
         self.fullscreen = fullscreen
         self.dist_mode = "Fisheye"
 
-        self.glfont = fontstash.Context()
-        self.glfont.add_font("opensans", get_opensans_font_path())
-        self.glfont.set_size(32)
-        self.glfont.set_color_float((0.2, 0.5, 0.9, 1.0))
-        self.glfont.set_align_string(v_align="center")
+#         self.glfont = fontstash.Context()
+#         self.glfont.add_font("opensans", get_opensans_font_path())
+#         self.glfont.set_size(32)
+#         self.glfont.set_color_float((0.2, 0.5, 0.9, 1.0))
+#         self.glfont.set_align_string(v_align="center")
 
         self.undist_img = None
         self.show_undistortion = False
@@ -102,72 +102,72 @@ class Camera_Intrinsics_Estimation(Plugin):
 
         self._draw_circle_filled = draw_circle_filled_func_builder()
 
-    def init_ui(self):
-        self.add_menu()
-        self.menu.label = "Camera Intrinsics Estimation"
-
-        def get_monitors_idx_list():
-            monitors = [glfw.get_monitor_name(m) for m in glfw.get_monitors()]
-            return range(len(monitors)), monitors
-
-        if self.monitor_idx not in get_monitors_idx_list()[0]:
-            logger.warning(
-                f"Monitor at index {self.monitor_idx} no longer availalbe. "
-                "Using default instead."
-            )
-            self.monitor_idx = 0
-
-        self.menu.append(
-            ui.Info_Text(
-                "Estimate Camera intrinsics of the world camera. Using an 11x9 asymmetrical circle grid. Click 'i' to capture a pattern."
-            )
-        )
-
-        self.menu.append(ui.Button("show Pattern", self.open_window))
-        self.menu.append(
-            # TODO: potential race condition through selection_getter. Should ensure
-            # that current selection will always be present in the list returned by the
-            # selection_getter. Highly unlikely though as this needs to happen between
-            # having clicked the Selector and the next redraw.
-            # See https://github.com/pupil-labs/pyglui/pull/112/commits/587818e9556f14bfedd8ff8d093107358745c29b
-            ui.Selector(
-                "monitor_idx",
-                self,
-                selection_getter=get_monitors_idx_list,
-                label="Monitor",
-            )
-        )
-        dist_modes = ["Fisheye", "Radial"]
-        self.menu.append(
-            ui.Selector(
-                "dist_mode", self, selection=dist_modes, label="Distortion Model"
-            )
-        )
-        self.menu.append(ui.Switch("fullscreen", self, label="Use Fullscreen"))
-        self.show_undistortion_switch = ui.Switch(
-            "show_undistortion", self, label="show undistorted image"
-        )
-        self.menu.append(self.show_undistortion_switch)
-        self.show_undistortion_switch.read_only = not (
-            hasattr(self.g_pool.capture, "intrinsics")
-            and self.g_pool.capture.intrinsics
-        )
-
-        self.button = ui.Thumb(
-            "collect_new",
-            self,
-            setter=self.advance,
-            label="I",
-            hotkey=Hotkey.CAMERA_INTRINSIC_ESTIMATOR_COLLECT_NEW_CAPTURE_HOTKEY(),
-        )
-        self.button.on_color[:] = (0.3, 0.2, 1.0, 0.9)
-        self.g_pool.quickbar.insert(0, self.button)
-
-    def deinit_ui(self):
-        self.remove_menu()
-        if self.button:
-            self.g_pool.quickbar.remove(self.button)
-            self.button = None
+#     def init_ui(self):
+#         self.add_menu()
+#         self.menu.label = "Camera Intrinsics Estimation"
+#
+# #         def get_monitors_idx_list():
+# # #             monitors = [glfw.get_monitor_name(m) for m in glfw.get_monitors()]
+# #             return range(len(monitors)), monitors
+#
+#         if self.monitor_idx not in get_monitors_idx_list()[0]:
+#             logger.warning(
+#                 f"Monitor at index {self.monitor_idx} no longer availalbe. "
+#                 "Using default instead."
+#             )
+#             self.monitor_idx = 0
+#
+#         self.menu.append(
+#             ui.Info_Text(
+#                 "Estimate Camera intrinsics of the world camera. Using an 11x9 asymmetrical circle grid. Click 'i' to capture a pattern."
+#             )
+#         )
+#
+#         self.menu.append(ui.Button("show Pattern", self.open_window))
+#         self.menu.append(
+#             # TODO: potential race condition through selection_getter. Should ensure
+#             # that current selection will always be present in the list returned by the
+#             # selection_getter. Highly unlikely though as this needs to happen between
+#             # having clicked the Selector and the next redraw.
+#             # See https://github.com/pupil-labs/pyglui/pull/112/commits/587818e9556f14bfedd8ff8d093107358745c29b
+#             ui.Selector(
+#                 "monitor_idx",
+#                 self,
+#                 selection_getter=get_monitors_idx_list,
+#                 label="Monitor",
+#             )
+#         )
+#         dist_modes = ["Fisheye", "Radial"]
+#         self.menu.append(
+#             ui.Selector(
+#                 "dist_mode", self, selection=dist_modes, label="Distortion Model"
+#             )
+#         )
+#         self.menu.append(ui.Switch("fullscreen", self, label="Use Fullscreen"))
+#         self.show_undistortion_switch = ui.Switch(
+#             "show_undistortion", self, label="show undistorted image"
+#         )
+#         self.menu.append(self.show_undistortion_switch)
+#         self.show_undistortion_switch.read_only = not (
+#             hasattr(self.g_pool.capture, "intrinsics")
+#             and self.g_pool.capture.intrinsics
+#         )
+#
+#         self.button = ui.Thumb(
+#             "collect_new",
+#             self,
+#             setter=self.advance,
+#             label="I",
+#             hotkey=Hotkey.CAMERA_INTRINSIC_ESTIMATOR_COLLECT_NEW_CAPTURE_HOTKEY(),
+#         )
+#         self.button.on_color[:] = (0.3, 0.2, 1.0, 0.9)
+#         self.g_pool.quickbar.insert(0, self.button)
+#
+#     def deinit_ui(self):
+#         self.remove_menu()
+#         if self.button:
+#             self.g_pool.quickbar.remove(self.button)
+#             self.button = None
 
     def do_open(self):
         if not self._window:
@@ -186,69 +186,69 @@ class Camera_Intrinsics_Estimation(Plugin):
 
         self.collect_new = True
 
-    def open_window(self):
-        if not self._window:
-            if self.fullscreen:
-                try:
-                    monitor = glfw.get_monitors()[self.monitor_idx]
-                except Exception:
-                    logger.warning(
-                        "Monitor at index %s no longer availalbe using default" % idx
-                    )
-                    self.monitor_idx = 0
-                    monitor = glfw.get_monitors()[self.monitor_idx]
-                mode = glfw.get_video_mode(monitor)
-                height, width = mode.size.height, mode.size.width
-            else:
-                monitor = None
-                height, width = 640, 480
-
-            self._window = glfw.create_window(
-                height,
-                width,
-                "Calibration",
-                monitor,
-                glfw.get_current_context(),
-            )
-            if not self.fullscreen:
-                # move to y = 31 for windows os
-                glfw.set_window_pos(self._window, 200, 31)
-
-            # Register callbacks
-            glfw.set_framebuffer_size_callback(self._window, on_resize)
-            glfw.set_key_callback(self._window, self.on_window_key)
-            glfw.set_window_close_callback(self._window, self.on_close)
-            glfw.set_mouse_button_callback(self._window, self.on_window_mouse_button)
-
-            on_resize(self._window, *glfw.get_framebuffer_size(self._window))
-
-            # gl_state settings
-            active_window = glfw.get_current_context()
-            glfw.make_context_current(self._window)
-            basic_gl_setup()
-            glfw.make_context_current(active_window)
-
-            self.clicks_to_close = 5
-
-    def on_window_key(self, window, key, scancode, action, mods):
-        if action == glfw.PRESS:
-            if key == glfw.KEY_ESCAPE:
-                self.on_close()
-
-    def on_window_mouse_button(self, window, button, action, mods):
-        if action == glfw.PRESS:
-            self.clicks_to_close -= 1
-        if self.clicks_to_close == 0:
-            self.on_close()
-
-    def on_close(self, window=None):
-        self.window_should_close = True
-
-    def close_window(self):
-        self.window_should_close = False
-        if self._window:
-            glfw.destroy_window(self._window)
-            self._window = None
+#     def open_window(self):
+#         if not self._window:
+#             if self.fullscreen:
+#                 try:
+#                     monitor = glfw.get_monitors()[self.monitor_idx]
+#                 except Exception:
+#                     logger.warning(
+#                         "Monitor at index %s no longer availalbe using default" % idx
+#                     )
+#                     self.monitor_idx = 0
+#                     monitor = glfw.get_monitors()[self.monitor_idx]
+#                 mode = glfw.get_video_mode(monitor)
+#                 height, width = mode.size.height, mode.size.width
+#             else:
+#                 monitor = None
+#                 height, width = 640, 480
+#
+#             self._window = glfw.create_window(
+#                 height,
+#                 width,
+#                 "Calibration",
+#                 monitor,
+#                 glfw.get_current_context(),
+#             )
+#             if not self.fullscreen:
+#                 # move to y = 31 for windows os
+#                 glfw.set_window_pos(self._window, 200, 31)
+#
+#             # Register callbacks
+#             glfw.set_framebuffer_size_callback(self._window, on_resize)
+#             glfw.set_key_callback(self._window, self.on_window_key)
+#             glfw.set_window_close_callback(self._window, self.on_close)
+#             glfw.set_mouse_button_callback(self._window, self.on_window_mouse_button)
+#
+#             on_resize(self._window, *glfw.get_framebuffer_size(self._window))
+#
+#             # gl_state settings
+#             active_window = glfw.get_current_context()
+#             glfw.make_context_current(self._window)
+#             basic_gl_setup()
+#             glfw.make_context_current(active_window)
+#
+#             self.clicks_to_close = 5
+#
+#     def on_window_key(self, window, key, scancode, action, mods):
+#         if action == glfw.PRESS:
+#             if key == glfw.KEY_ESCAPE:
+#                 self.on_close()
+#
+#     def on_window_mouse_button(self, window, button, action, mods):
+#         if action == glfw.PRESS:
+#             self.clicks_to_close -= 1
+#         if self.clicks_to_close == 0:
+#             self.on_close()
+#
+#     def on_close(self, window=None):
+#         self.window_should_close = True
+#
+#     def close_window(self):
+#         self.window_should_close = False
+#         if self._window:
+#             glfw.destroy_window(self._window)
+#             self._window = None
 
     def calculate(self):
         self.calculated = True
@@ -354,72 +354,72 @@ class Camera_Intrinsics_Estimation(Plugin):
             # adjusted_k,roi = cv2.getOptimalNewCameraMatrix(cameraMatrix= np.array(self.camera_intrinsics[0]), distCoeffs=np.array(self.camera_intrinsics[1]), imageSize=self.camera_intrinsics[2], alpha=0.5,newImgSize=self.camera_intrinsics[2],centerPrincipalPoint=1)
             self.undist_img = self.g_pool.capture.intrinsics.undistort(frame.img)
 
-    def gl_display(self):
-        for grid_points in self.img_points:
-            # we dont need that extra encapsulation that opencv likes so much
-            calib_bounds = cv2.convexHull(grid_points)[:, 0]
-            draw_polyline(
-                calib_bounds, 1, RGBA(0.0, 0.0, 1.0, 0.5), line_type=gl.GL_LINE_LOOP
-            )
-
-        if self._window:
-            self.gl_display_in_window()
-
-        if self.show_undistortion and self.undist_img is not None:
-            gl.glPushMatrix()
-            make_coord_system_norm_based()
-            draw_gl_texture(self.undist_img)
-            gl.glPopMatrix()
-
-    def gl_display_in_window(self):
-        active_window = glfw.get_current_context()
-        glfw.make_context_current(self._window)
-
-        clear_gl_screen()
-
-        gl.glMatrixMode(gl.GL_PROJECTION)
-        gl.glLoadIdentity()
-        p_window_size = glfw.get_window_size(self._window)
-        r = p_window_size[0] / 15.0
-        # compensate for radius of marker
-        gl.glOrtho(-r, p_window_size[0] + r, p_window_size[1] + r, -r, -1, 1)
-        # Switch back to Model View Matrix
-        gl.glMatrixMode(gl.GL_MODELVIEW)
-        gl.glLoadIdentity()
-        # hacky way of scaling and fitting in different window rations/sizes
-        grid = _make_grid() * min((p_window_size[0], p_window_size[1] * 5.5 / 4.0))
-        # center the pattern
-        grid -= np.mean(grid)
-        grid += (p_window_size[0] / 2 - r, p_window_size[1] / 2 + r)
-
-        for pt in grid:
-            self._draw_circle_filled(
-                tuple(pt),
-                size=r / 2,
-                color=RGBA(0.0, 0.0, 0.0, 1),
-            )
-
-        if self.clicks_to_close < 5:
-            self.glfont.set_size(int(p_window_size[0] / 30.0))
-            self.glfont.draw_text(
-                p_window_size[0] / 2.0,
-                p_window_size[1] / 4.0,
-                f"Touch {self.clicks_to_close} more times to close window.",
-            )
-
-        glfw.swap_buffers(self._window)
-        glfw.make_context_current(active_window)
+#     def gl_display(self):
+#         for grid_points in self.img_points:
+#             # we dont need that extra encapsulation that opencv likes so much
+#             calib_bounds = cv2.convexHull(grid_points)[:, 0]
+#             draw_polyline(
+#                 calib_bounds, 1, RGBA(0.0, 0.0, 1.0, 0.5), line_type=gl.GL_LINE_LOOP
+#             )
+#
+#         if self._window:
+#             self.gl_display_in_window()
+#
+#         if self.show_undistortion and self.undist_img is not None:
+#             gl.glPushMatrix()
+#             make_coord_system_norm_based()
+#             draw_gl_texture(self.undist_img)
+#             gl.glPopMatrix()
+#
+#     def gl_display_in_window(self):
+#         active_window = glfw.get_current_context()
+#         glfw.make_context_current(self._window)
+#
+#         clear_gl_screen()
+#
+#         gl.glMatrixMode(gl.GL_PROJECTION)
+#         gl.glLoadIdentity()
+#         p_window_size = glfw.get_window_size(self._window)
+#         r = p_window_size[0] / 15.0
+#         # compensate for radius of marker
+#         gl.glOrtho(-r, p_window_size[0] + r, p_window_size[1] + r, -r, -1, 1)
+#         # Switch back to Model View Matrix
+#         gl.glMatrixMode(gl.GL_MODELVIEW)
+#         gl.glLoadIdentity()
+#         # hacky way of scaling and fitting in different window rations/sizes
+#         grid = _make_grid() * min((p_window_size[0], p_window_size[1] * 5.5 / 4.0))
+#         # center the pattern
+#         grid -= np.mean(grid)
+#         grid += (p_window_size[0] / 2 - r, p_window_size[1] / 2 + r)
+#
+#         for pt in grid:
+#             self._draw_circle_filled(
+#                 tuple(pt),
+#                 size=r / 2,
+#                 color=RGBA(0.0, 0.0, 0.0, 1),
+#             )
+#
+#         if self.clicks_to_close < 5:
+#             self.glfont.set_size(int(p_window_size[0] / 30.0))
+#             self.glfont.draw_text(
+#                 p_window_size[0] / 2.0,
+#                 p_window_size[1] / 4.0,
+#                 f"Touch {self.clicks_to_close} more times to close window.",
+#             )
+#
+#         glfw.swap_buffers(self._window)
+#         glfw.make_context_current(active_window)
 
     def get_init_dict(self):
         return {"monitor_idx": self.monitor_idx}
 
-    def cleanup(self):
-        """gets called when the plugin get terminated.
-        This happens either voluntarily or forced.
-        if you have a gui or glfw window destroy it here.
-        """
-        if self._window:
-            self.close_window()
+#     def cleanup(self):
+#         """gets called when the plugin get terminated.
+#         This happens either voluntarily or forced.
+#         if you have a gui or glfw window destroy it here.
+#         """
+#         if self._window:
+#             self.close_window()
 
 
 def _gen_pattern_grid(size=(4, 11)):

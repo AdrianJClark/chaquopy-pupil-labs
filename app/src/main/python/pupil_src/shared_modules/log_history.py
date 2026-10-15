@@ -15,7 +15,7 @@ import os
 
 import zmq_tools
 from plugin import Plugin
-from pyglui import ui
+# from pyglui import ui
 
 logger = logging.getLogger(__name__)
 
@@ -45,31 +45,31 @@ class Log_History(Plugin):
         )
         self.logfile = os.path.join(self.g_pool.user_dir, self.g_pool.app + ".log")
 
-    def init_ui(self):
-        self.add_menu()
-        self.menu.label = "Log"
-
-        help_str = 'A View of the {} most recent log messages. Complete logs are here: "{}"'.format(
-            self.num_messages, self.g_pool.user_dir
-        )
-        self.menu.append(ui.Info_Text(help_str))
-
-        with open(self.logfile, encoding="utf-8") as fh:
-            for l in fh.readlines():
-                self.menu.insert(2, ui.Info_Text(l[26:-1]))
-
-        if self.g_pool.app == "capture":
-            self.log_handler = None
-            self._socket = zmq_tools.Msg_Receiver(
-                self.g_pool.zmq_ctx, self.g_pool.ipc_sub_url, ("logging",)
-            )
-
-        else:
-            self._socket = None
-            self.log_handler = Log_to_Callback(self.on_log)
-            logger = logging.getLogger()
-            logger.addHandler(self.log_handler)
-            self.log_handler.setLevel(logging.INFO)
+#     def init_ui(self):
+#         self.add_menu()
+#         self.menu.label = "Log"
+#
+#         help_str = 'A View of the {} most recent log messages. Complete logs are here: "{}"'.format(
+#             self.num_messages, self.g_pool.user_dir
+#         )
+#         self.menu.append(ui.Info_Text(help_str))
+#
+#         with open(self.logfile, encoding="utf-8") as fh:
+#             for l in fh.readlines():
+#                 self.menu.insert(2, ui.Info_Text(l[26:-1]))
+#
+#         if self.g_pool.app == "capture":
+#             self.log_handler = None
+#             self._socket = zmq_tools.Msg_Receiver(
+#                 self.g_pool.zmq_ctx, self.g_pool.ipc_sub_url, ("logging",)
+#             )
+#
+#         else:
+#             self._socket = None
+#             self.log_handler = Log_to_Callback(self.on_log)
+#             logger = logging.getLogger()
+#             logger.addHandler(self.log_handler)
+#             self.log_handler.setLevel(logging.INFO)
 
     def recent_events(self, events):
         if self._socket:
@@ -81,8 +81,8 @@ class Log_History(Plugin):
         self.menu.elements[self.num_messages + 2 :] = []
         self.menu.insert(1, ui.Info_Text(str(self.formatter.format(record))))
 
-    def deinit_ui(self):
-        self.remove_menu()
+#     def deinit_ui(self):
+#         self.remove_menu()
 
     def cleanup(self):
         if self.log_handler:

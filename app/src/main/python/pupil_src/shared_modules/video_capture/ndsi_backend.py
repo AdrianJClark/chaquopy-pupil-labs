@@ -14,7 +14,7 @@ import time
 import ndsi
 import os_utils
 from camera_models import Camera_Model
-from pyglui import ui
+# from pyglui import ui
 from version_utils import parse_version
 
 from .base_backend import Base_Manager, Base_Source, SourceInfo

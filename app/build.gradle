@@ -38,6 +38,12 @@ android {
 
 chaquopy {
     defaultConfig {
+        // Specify your target Python version (e.g., "3.10")
+        version = "3.10"
+
+        // Match the build machine's Python interpreter path to the same version
+        buildPython "C:\\Users\\adrian\\AppData\\Local\\Python\\pythoncore-3.10-64\\python.exe"
+
         pip {
             install "six"
             install "pyzmq"
@@ -49,6 +55,7 @@ chaquopy {
             install "typing_extensions"
             install "scikit-learn"
             install "click"
+            install "pupil-detectors"
         }
     }
 }

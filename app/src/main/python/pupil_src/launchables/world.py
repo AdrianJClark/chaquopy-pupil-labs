@@ -164,14 +164,14 @@ def world(
         available_choreography_plugins = available_calibration_choreography_plugins()
 
         from accuracy_visualizer import Accuracy_Visualizer
-        from annotations import Annotation_Capture
+        #from annotations import Annotation_Capture
         from blink_detection import Blink_Detection
         from camera_intrinsics_estimation import Camera_Intrinsics_Estimation
         from display_recent_gaze import Display_Recent_Gaze
         from fixation_detector import Fixation_Detector
         from gaze_mapping import registered_gazer_classes
         from gaze_mapping.gazer_base import GazerBase
-        from head_pose_tracker.online_head_pose_tracker import Online_Head_Pose_Tracker
+        #from head_pose_tracker.online_head_pose_tracker import Online_Head_Pose_Tracker
         from hololens_relay import Hololens_Relay
         from log_display import Log_Display
         from log_history import Log_History
@@ -254,7 +254,7 @@ def world(
             NetworkApiPlugin,
             Time_Sync,
             Surface_Tracker_Online,
-            Annotation_Capture,
+            #Annotation_Capture,
             Log_History,
             Fixation_Detector,
             Blink_Detection,
@@ -262,7 +262,7 @@ def world(
             Accuracy_Visualizer,
             Camera_Intrinsics_Estimation,
             Hololens_Relay,
-            Online_Head_Pose_Tracker,
+#             Online_Head_Pose_Tracker,
         ]
 
         system_plugins = (

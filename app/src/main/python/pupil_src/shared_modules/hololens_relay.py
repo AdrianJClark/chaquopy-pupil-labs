@@ -18,10 +18,10 @@ import os_utils
 import zmq
 import zmq_tools
 from plugin import Plugin
-from pyglui import ui
-from pyre import zhelper
+# from pyglui import ui
+# from pyre import zhelper
 
-os_utils.patch_pyre_zhelper_cdll()
+# os_utils.patch_pyre_zhelper_cdll()
 logger = logging.getLogger(__name__)
 
 
@@ -153,7 +153,7 @@ class Hololens_Relay(Plugin):
         super().__init__(g_pool)
         self.order = 0.01  # excecute first
         self.context = g_pool.zmq_ctx
-        self.thread_pipe = zhelper.zthread_fork(self.context, self.thread_loop)
+#         self.thread_pipe = zhelper.zthread_fork(self.context, self.thread_loop)
 
         self.use_primary_interface = use_primary_interface
         assert type(host) == str
@@ -184,68 +184,68 @@ class Hololens_Relay(Plugin):
         while self.thread_pipe:
             sleep(0.1)
 
-    def init_ui(self):
-        self.add_menu()
-        self.menu.label = "Hololens Relay"
-        self.update_menu()
-
-    def deinit_ui(self):
-        self.remove_menu()
-
-    def update_menu(self):
-        del self.menu.elements[:]
-
-        def set_iface(use_primary_interface):
-            self.use_primary_interface = use_primary_interface
-            self.update_menu()
-
-        if self.use_primary_interface:
-
-            def set_port(new_port):
-                new_address = ":" + new_port
-                self.start_server(new_address)
-                self.update_menu()
-
-            try:
-                ip = socket.gethostbyname(socket.gethostname())
-            except Exception:
-                ip = "Your external ip"
-
-        else:
-
-            def set_address(new_address):
-                if new_address.count(":") != 1:
-                    logger.error("address format not correct")
-                    return
-                self.start_server(new_address)
-                self.update_menu()
-
-        help_str = "The Hololens Relay is the bridge between Pupil Capture and the Hololens client. It uses UDP sockets to relay data."
-        self.menu.append(ui.Info_Text(help_str))
-        self.menu.append(
-            ui.Switch(
-                "use_primary_interface",
-                self,
-                setter=set_iface,
-                label="Use primary network interface",
-            )
-        )
-        if self.use_primary_interface:
-            self.menu.append(ui.Text_Input("port", self, setter=set_port, label="Port"))
-            self.menu.append(
-                ui.Info_Text(f'Connect locally:   "127.0.0.1:{self.port}"')
-            )
-            self.menu.append(ui.Info_Text(f'Connect remotely: "{ip}:{self.port}"'))
-        else:
-            self.menu.append(
-                ui.Text_Input(
-                    "host",
-                    setter=set_address,
-                    label="Address",
-                    getter=lambda: f"{self.host}:{self.port}",
-                )
-            )
-            self.menu.append(ui.Info_Text(f'Bound to: "{self.host}:{self.port}"'))
+#     def init_ui(self):
+#         self.add_menu()
+#         self.menu.label = "Hololens Relay"
+#         self.update_menu()
+#
+#     def deinit_ui(self):
+#         self.remove_menu()
+#
+#     def update_menu(self):
+#         del self.menu.elements[:]
+#
+#         def set_iface(use_primary_interface):
+#             self.use_primary_interface = use_primary_interface
+#             self.update_menu()
+#
+#         if self.use_primary_interface:
+#
+#             def set_port(new_port):
+#                 new_address = ":" + new_port
+#                 self.start_server(new_address)
+#                 self.update_menu()
+#
+#             try:
+#                 ip = socket.gethostbyname(socket.gethostname())
+#             except Exception:
+#                 ip = "Your external ip"
+#
+#         else:
+#
+#             def set_address(new_address):
+#                 if new_address.count(":") != 1:
+#                     logger.error("address format not correct")
+#                     return
+#                 self.start_server(new_address)
+#                 self.update_menu()
+#
+#         help_str = "The Hololens Relay is the bridge between Pupil Capture and the Hololens client. It uses UDP sockets to relay data."
+#         self.menu.append(ui.Info_Text(help_str))
+#         self.menu.append(
+#             ui.Switch(
+#                 "use_primary_interface",
+#                 self,
+#                 setter=set_iface,
+#                 label="Use primary network interface",
+#             )
+#         )
+#         if self.use_primary_interface:
+#             self.menu.append(ui.Text_Input("port", self, setter=set_port, label="Port"))
+#             self.menu.append(
+#                 ui.Info_Text(f'Connect locally:   "127.0.0.1:{self.port}"')
+#             )
+#             self.menu.append(ui.Info_Text(f'Connect remotely: "{ip}:{self.port}"'))
+#         else:
+#             self.menu.append(
+#                 ui.Text_Input(
+#                     "host",
+#                     setter=set_address,
+#                     label="Address",
+#                     getter=lambda: f"{self.host}:{self.port}",
+#                 )
+#             )
+#             self.menu.append(ui.Info_Text(f'Bound to: "{self.host}:{self.port}"'))
 
     def thread_loop(self, context, pipe):
         poller = zmq.Poller()

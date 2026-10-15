@@ -13,23 +13,23 @@ import os
 import typing as T
 
 import cv2
-import glfw
+#import glfw
 import numpy as np
-from gl_utils import GLFWErrorReporting, draw_circle_filled_func_builder
+#from gl_utils import GLFWErrorReporting, draw_circle_filled_func_builder
 
-GLFWErrorReporting.set_default()
+#GLFWErrorReporting.set_default()
 
 import audio
 from methods import denormalize, normalize
-from pyglui import ui
-from pyglui.cygl.utils import RGBA
+#from pyglui import ui
+#from pyglui.cygl.utils import RGBA
 
 from .base_plugin import (
     CalibrationChoreographyPlugin,
     ChoreographyAction,
     ChoreographyMode,
 )
-from .controller import GUIMonitor
+#from .controller import GUIMonitor
 
 logger = logging.getLogger(__name__)
 
@@ -107,23 +107,7 @@ class NaturalFeatureChoreographyPlugin(CalibrationChoreographyPlugin):
             else "Click to Sample at Location"
         )
 
-    def gl_display(self):
-        feature = self.__previously_detected_feature
-        if feature:
-            recent_frame_size = self.g_pool.capture.frame_size
-            point = denormalize(feature["norm_pos"], recent_frame_size, flip_y=True)
-            self._draw_circle_filled(
-                tuple(point),
-                size=self._RADIUS_OF_CIRCLE_DISPLAYED / 2,
-                color=RGBA(0.0, 1.0, 0.0, 0.5),
-            )
 
-    def on_click(self, pos, button, action):
-        if action == glfw.PRESS and self.is_active:
-            self.__feature_tracker.reset(pos)
-            self.__number_of_ref_points_gathered_from_last_click = 0
-            return True  # click consumed
-        return False  # click not consumed
 
     def _perform_start(self):
         if not self.g_pool.capture.online:

@@ -37,20 +37,20 @@ from .base_backend import (
 #from .file_backend import File_Manager, File_Source, FileSeekError
 from .hmd_streaming import HMD_Streaming_Source
 #from .neon_backend.plugin import Neon_Eye_Cam_Source, Neon_Manager
-from .uvc_backend import UVC_Manager, UVC_Source
+#from .uvc_backend import UVC_Manager, UVC_Source
 
 logger = logging.getLogger(__name__)
 
 
 #source_classes = [UVC_Source, HMD_Streaming_Source, Neon_Eye_Cam_Source]
 #manager_classes = [UVC_Manager, Neon_Manager]
-source_classes = [UVC_Source, HMD_Streaming_Source]
-manager_classes = [UVC_Manager]
+source_classes = [HMD_Streaming_Source]
+manager_classes = []
 
-try:
-    from .ndsi_backend import NDSI_Manager, NDSI_Source
-except ImportError:
-    logger.info("Install pyndsi to use the Pupil Mobile backend")
-else:
-    source_classes.append(NDSI_Source)
-    manager_classes.append(NDSI_Manager)
+# try:
+#     from .ndsi_backend import NDSI_Manager, NDSI_Source
+# except ImportError:
+#     logger.info("Install pyndsi to use the Pupil Mobile backend")
+# else:
+#     source_classes.append(NDSI_Source)
+#     manager_classes.append(NDSI_Manager)

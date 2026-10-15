@@ -13,7 +13,7 @@ import logging
 from plugin import Plugin
 
 from .controller import FramePublisherController, PupilRemoteController
-from .ui import FramePublisherMenu, PupilRemoteMenu
+# from .ui import FramePublisherMenu, PupilRemoteMenu
 
 logger = logging.getLogger(__name__)
 
@@ -50,8 +50,8 @@ class NetworkApiPlugin(Plugin):
         )
 
         # UI components setup (not initialized yet)
-        self.__frame_publisher_ui_menu = FramePublisherMenu(self.__frame_publisher)
-        self.__pupil_remote_ui_menu = PupilRemoteMenu(self.__pupil_remote)
+#         self.__frame_publisher_ui_menu = FramePublisherMenu(self.__frame_publisher)
+#         self.__pupil_remote_ui_menu = PupilRemoteMenu(self.__pupil_remote)
 
     def get_init_dict(self):
         return {
